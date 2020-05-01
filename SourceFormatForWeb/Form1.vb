@@ -67,8 +67,16 @@
         clikePts += CountInstancesOfSubstrings(s, "{")
         clikePts += CountInstancesOfSubstrings(s, "}")
 
-        'and ; on end of most lines
+        'and ; on end of most lines - an inline comment could mess this one up
         clikePts += CountInstancesOfSubstrings(s, ";" & vbCrLf)
+
+        'often uses c++ style comments //
+        clikePts += CountInstancesOfSubstrings(s, "//")
+
+        'or the c style /* and */ pairs
+        clikePts += CountInstancesOfSubstrings(s, "/*")
+        clikePts += CountInstancesOfSubstrings(s, "*/")
+
 
         '#define is common
         clikePts += CountInstancesOfSubstrings(s, "#define") * StrongIndicator
