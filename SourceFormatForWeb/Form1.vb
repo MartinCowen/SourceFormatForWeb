@@ -13,7 +13,7 @@
         End With
     End Sub
 
-    Private Function Convert(s As String, lang As String) As String
+    Private Function SourceFormatToLang(s As String, lang As String) As String
         Dim r As String
         'replace tabs with 4 spaces
         r = s.Replace(vbTab, "    ")
@@ -30,73 +30,96 @@
     End Function
 
     Private Sub txtInput_TextChanged(sender As Object, e As EventArgs) Handles txtInput.TextChanged
-        txtOutput.Text = Convert(txtInput.Text, cmbLangs.Text)
+        StartSourceFormat()
     End Sub
 
     Private Sub cmbLangs_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbLangs.SelectedIndexChanged
-        txtOutput.Text = Convert(txtInput.Text, cmbLangs.Text)
+        StartSourceFormat()
+    End Sub
+
+    Private Sub chkAutoDetectLang_CheckedChanged(sender As Object, e As EventArgs) Handles chkAutoDetectLang.CheckedChanged
+        If chkAutoDetectLang.Checked Then StartSourceFormat()
     End Sub
 
     Private Sub btnCopy_Click(sender As Object, e As EventArgs) Handles btnCopy.Click
         My.Computer.Clipboard.SetText(txtOutput.Text)
     End Sub
+    Private Sub StartSourceFormat()
 
+        If chkAutoDetectLang.Checked Then
+            cmbLangs.Text = GuessLanguage(txtInput.Text)
+        End If
+        txtOutput.Text = SourceFormatToLang(txtInput.Text, cmbLangs.Text)
+    End Sub
     Private Function GuessLanguage(s As String) As String
         'points are accumulated for indicators of each language
         'this is a heuristic approach, not parsing so will not work for string literals or unusually formatted code
 
-        Dim clikePts As Integer
-        Dim jsonPts As Integer
-        Dim pythonPts As Integer
-        Dim sqlPts As Integer
-        Dim vbnetPts As Integer
+        Dim clikePts As Integer = 0
+        Dim jsonPts As Integer = 0
+        Dim pythonPts As Integer = 0
+        Dim sqlPts As Integer = 0
+        Dim vbnetPts As Integer = 0
+        Const StrongIndicator As Integer = 10
+
 
         'c has many {} symbols
-        clikePts += Len(s) - Len(s.Replace("{", ""))
-        clikePts += Len(s) - Len(s.Replace("}", ""))
+        clikePts += CountInstancesOfSubstrings(s, "{")
+        clikePts += CountInstancesOfSubstrings(s, "}")
 
         'and ; on end of most lines
-        clikePts += s.Split(";" & vbCrLf).Length - 1
+        clikePts += CountInstancesOfSubstrings(s, ";" & vbCrLf)
 
         '#define is common
-        clikePts += s.Split("#define").Length - 1 + 10
+        clikePts += CountInstancesOfSubstrings(s, "#define") * StrongIndicator
+
+        Debug.Print("clikePts " & clikePts)
 
         'vbnet has End If, End Sub, End Function
-        vbnetPts += s.Split("End If").Length - 1
-        vbnetPts += s.Split("End Sub").Length - 1
-        vbnetPts += s.Split("End Function").Length - 1
+        vbnetPts += CountInstancesOfSubstrings(s, "End If")
+        vbnetPts += CountInstancesOfSubstrings(s, "End Sub")
+        vbnetPts += CountInstancesOfSubstrings(s, "End Function")
+        vbnetPts += CountInstancesOfSubstrings(s, " Then")
+
+        Debug.Print("vbnetPts " & vbnetPts)
 
         'python uses def for functions
-        pythonPts += s.Split("def ").Length - 1 + 10
+        pythonPts += CountInstancesOfSubstrings(s, "def ") * 10
 
         'has : on end of some lines
-        pythonPts += s.Split(":" & vbCrLf).Length - 1
+        pythonPts += CountInstancesOfSubstrings(s, ":" & vbCrLf)
 
         'python uses # for comments, but need to not count c's #define
-        pythonPts += s.Split("#").Length - 1
-        pythonPts -= s.Split("#define").Length - 1
+        pythonPts += CountInstancesOfSubstrings(s, "#")
+        pythonPts -= CountInstancesOfSubstrings(s, "#define")
+
+        Debug.Print("pythonPts " & pythonPts)
 
         'json starts with {, ends with }
         If s.StartsWith("{") Then jsonPts += 5
         If s.EndsWith("}") Then jsonPts += 5
 
         'json lines tend to end with ,
-        clikePts += s.Split("," & vbCrLf).Length - 1
+        jsonPts += CountInstancesOfSubstrings(s, "," & vbCrLf)
+
+        Debug.Print("jsonPts " & jsonPts)
 
         'sql contains keywords
         Dim su As String = s.ToUpper
-        sqlPts += su.Split("SELECT").Length - 1
-        sqlPts += su.Split("FROM").Length - 1
-        sqlPts += su.Split("WHERE").Length - 1
-        sqlPts += su.Split("JOIN").Length - 1
-        sqlPts += su.Split("INSERT").Length - 1
-        sqlPts += su.Split("UPDATE").Length - 1
-        sqlPts += su.Split("DELETE").Length - 1
-        sqlPts += su.Split("GROUP BY").Length - 1
-        sqlPts += su.Split("HAVING").Length - 1
-        sqlPts += su.Split("ORDER BY").Length - 1
-        sqlPts += su.Split("COUNT").Length - 1
-        sqlPts += su.Split("DISTINCT").Length - 1
+        sqlPts += CountInstancesOfSubstrings(s, "SELECT ")
+        sqlPts += CountInstancesOfSubstrings(s, " FROM ")
+        sqlPts += CountInstancesOfSubstrings(s, " WHERE ")
+        sqlPts += CountInstancesOfSubstrings(s, " JOIN ")
+        sqlPts += CountInstancesOfSubstrings(s, "INSERT ")
+        sqlPts += CountInstancesOfSubstrings(s, "UPDATE ")
+        sqlPts += CountInstancesOfSubstrings(s, "DELETE ")
+        sqlPts += CountInstancesOfSubstrings(s, " GROUP BY ")
+        sqlPts += CountInstancesOfSubstrings(s, " HAVING ")
+        sqlPts += CountInstancesOfSubstrings(s, " ORDER BY ")
+        sqlPts += CountInstancesOfSubstrings(s, " COUNT ")
+        sqlPts += CountInstancesOfSubstrings(s, " DISTINCT ")
+
+        Debug.Print("sqlPts " & sqlPts)
 
         'decide which lang is most likely
         'using max score
@@ -123,4 +146,18 @@
 
         Return ""
     End Function
+
+    Public Function CountInstancesOfSubstrings(s As String, substr As String) As Integer
+        Dim c As Integer = 0
+        For i As Integer = 0 To s.Length - substr.Length
+            If s.Substring(i, substr.Length) = substr Then
+                c += 1
+            End If
+        Next i
+        Return c
+    End Function
+
+    Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
+        txtInput.Text = String.Empty
+    End Sub
 End Class

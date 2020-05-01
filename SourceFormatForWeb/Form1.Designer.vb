@@ -30,6 +30,7 @@ Partial Class Form1
         Me.Label1 = New System.Windows.Forms.Label()
         Me.chkAutoDetectLang = New System.Windows.Forms.CheckBox()
         Me.btnCopy = New System.Windows.Forms.Button()
+        Me.btnClear = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -105,6 +106,8 @@ Partial Class Form1
         'chkAutoDetectLang
         '
         Me.chkAutoDetectLang.AutoSize = True
+        Me.chkAutoDetectLang.Checked = True
+        Me.chkAutoDetectLang.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkAutoDetectLang.Location = New System.Drawing.Point(247, 24)
         Me.chkAutoDetectLang.Name = "chkAutoDetectLang"
         Me.chkAutoDetectLang.Size = New System.Drawing.Size(81, 17)
@@ -121,18 +124,28 @@ Partial Class Form1
         Me.btnCopy.Text = "Copy"
         Me.btnCopy.UseVisualStyleBackColor = True
         '
+        'btnClear
+        '
+        Me.btnClear.Location = New System.Drawing.Point(359, 21)
+        Me.btnClear.Name = "btnClear"
+        Me.btnClear.Size = New System.Drawing.Size(75, 29)
+        Me.btnClear.TabIndex = 5
+        Me.btnClear.Text = "Clear"
+        Me.btnClear.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 555)
+        Me.Controls.Add(Me.btnClear)
         Me.Controls.Add(Me.btnCopy)
         Me.Controls.Add(Me.chkAutoDetectLang)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.cmbLangs)
         Me.Controls.Add(Me.Panel1)
         Me.Name = "Form1"
-        Me.Text = "Form1"
+        Me.Text = "Source Format For Web"
         Me.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel1.PerformLayout()
@@ -153,4 +166,5 @@ Partial Class Form1
     Friend WithEvents Label1 As Label
     Friend WithEvents chkAutoDetectLang As CheckBox
     Friend WithEvents btnCopy As Button
+    Friend WithEvents btnClear As Button
 End Class
