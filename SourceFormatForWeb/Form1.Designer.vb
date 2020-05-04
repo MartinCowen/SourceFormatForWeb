@@ -31,6 +31,7 @@ Partial Class Form1
         Me.chkAutoDetectLang = New System.Windows.Forms.CheckBox()
         Me.btnCopy = New System.Windows.Forms.Button()
         Me.btnClear = New System.Windows.Forms.Button()
+        Me.chkHTMLEncode = New System.Windows.Forms.CheckBox()
         Me.Panel1.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -63,7 +64,7 @@ Partial Class Form1
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.txtOutput)
         Me.SplitContainer1.Size = New System.Drawing.Size(793, 495)
-        Me.SplitContainer1.SplitterDistance = 432
+        Me.SplitContainer1.SplitterDistance = 396
         Me.SplitContainer1.TabIndex = 0
         '
         'txtInput
@@ -73,7 +74,7 @@ Partial Class Form1
         Me.txtInput.Location = New System.Drawing.Point(0, 0)
         Me.txtInput.Multiline = True
         Me.txtInput.Name = "txtInput"
-        Me.txtInput.Size = New System.Drawing.Size(432, 495)
+        Me.txtInput.Size = New System.Drawing.Size(396, 495)
         Me.txtInput.TabIndex = 0
         '
         'txtOutput
@@ -83,7 +84,7 @@ Partial Class Form1
         Me.txtOutput.Location = New System.Drawing.Point(0, 0)
         Me.txtOutput.Multiline = True
         Me.txtOutput.Name = "txtOutput"
-        Me.txtOutput.Size = New System.Drawing.Size(357, 495)
+        Me.txtOutput.Size = New System.Drawing.Size(393, 495)
         Me.txtOutput.TabIndex = 0
         '
         'cmbLangs
@@ -133,11 +134,24 @@ Partial Class Form1
         Me.btnClear.Text = "Clear"
         Me.btnClear.UseVisualStyleBackColor = True
         '
+        'chkHTMLEncode
+        '
+        Me.chkHTMLEncode.AutoSize = True
+        Me.chkHTMLEncode.Checked = True
+        Me.chkHTMLEncode.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkHTMLEncode.Location = New System.Drawing.Point(468, 24)
+        Me.chkHTMLEncode.Name = "chkHTMLEncode"
+        Me.chkHTMLEncode.Size = New System.Drawing.Size(96, 17)
+        Me.chkHTMLEncode.TabIndex = 6
+        Me.chkHTMLEncode.Text = "HTML Encode"
+        Me.chkHTMLEncode.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 555)
+        Me.Controls.Add(Me.chkHTMLEncode)
         Me.Controls.Add(Me.btnClear)
         Me.Controls.Add(Me.btnCopy)
         Me.Controls.Add(Me.chkAutoDetectLang)
@@ -167,4 +181,5 @@ Partial Class Form1
     Friend WithEvents chkAutoDetectLang As CheckBox
     Friend WithEvents btnCopy As Button
     Friend WithEvents btnClear As Button
+    Friend WithEvents chkHTMLEncode As CheckBox
 End Class

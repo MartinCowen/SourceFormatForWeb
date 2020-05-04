@@ -1,4 +1,6 @@
-﻿Public Class Form1
+﻿Imports System.Net
+
+Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         PopulateLangs()
     End Sub
@@ -13,19 +15,22 @@
         End With
     End Sub
 
-    Private Function SourceFormatToLang(s As String, lang As String) As String
+    Private Function SourceFormatToLang(s As String, lang As String, htmlencode As Boolean) As String
         Dim r As String
-        'replace tabs with 4 spaces
-        r = s.Replace(vbTab, "    ")
 
-        'add the code start tag
-        r = r.Insert(0, "<code class=""language-" & lang & """>")
+        If htmlencode Then r = WebUtility.HtmlEncode(s) Else r = s
+
+        'replace tabs with 4 spaces
+        r = r.Replace(vbTab, "    ")
+
+        'add the pre and code start tag
+        r = r.Insert(0, "<pre><code class=""language-" & lang & """>")
 
         'want to put the end tag on the same line to avoid extra line breaks
         r = r.TrimEnd(vbCrLf)
 
         'close the tag
-        r = r & "</code>"
+        r = r & "</code></pre>"
         Return r
     End Function
 
@@ -49,7 +54,7 @@
         If chkAutoDetectLang.Checked Then
             cmbLangs.Text = GuessLanguage(txtInput.Text)
         End If
-        txtOutput.Text = SourceFormatToLang(txtInput.Text, cmbLangs.Text)
+        txtOutput.Text = SourceFormatToLang(txtInput.Text, cmbLangs.Text, chkHTMLEncode.Checked)
     End Sub
     Private Function GuessLanguage(s As String) As String
         'points are accumulated for indicators of each language
@@ -167,5 +172,10 @@
 
     Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
         txtInput.Text = String.Empty
+        txtInput.Focus()
+    End Sub
+
+    Private Sub chkHTMLEncode_CheckedChanged(sender As Object, e As EventArgs) Handles chkHTMLEncode.CheckedChanged
+        StartSourceFormat()
     End Sub
 End Class
