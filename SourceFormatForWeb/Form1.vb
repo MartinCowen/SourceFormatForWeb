@@ -38,7 +38,7 @@ Public Class Form1
         StartSourceFormat()
     End Sub
 
-    Private Sub cmbLangs_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbLangs.SelectedIndexChanged
+    Private Sub cmbLangs_TextChanged(sender As Object, e As EventArgs) Handles cmbLangs.TextChanged
         StartSourceFormat()
     End Sub
 
@@ -178,4 +178,7 @@ Public Class Form1
     Private Sub chkHTMLEncode_CheckedChanged(sender As Object, e As EventArgs) Handles chkHTMLEncode.CheckedChanged
         StartSourceFormat()
     End Sub
+
+
+
 End Class
