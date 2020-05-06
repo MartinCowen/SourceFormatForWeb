@@ -26,6 +26,11 @@ Copy button is the same as Select All and Copy in the right text box pane. It wi
 
 The window is resizable and the pane splitter is movable.
 
+## Installation
+No installer is provided because the program consists of a single executable which has no dependencies other than what is standard on a Windows 10 installation. The executable file is at
+
+https://github.com/MartinCowen/SourceFormatForWeb/blob/master/SourceFormatForWeb/bin/Release/SourceFormatForWeb.exe
+
 ## Source Code
 Written in VB.NET as a WinForms application using .NET Framework 4.7.2 in Visual Studio 2019
 No third party components are used.

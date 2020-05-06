@@ -15,6 +15,13 @@ Public Class Form1
         End With
     End Sub
 
+    ''' <summary>
+    ''' Formats source code string s by replacing tabs with 4 spaces, inserting pre and code tags and optionally HTML encoding
+    ''' </summary>
+    ''' <param name="s">input string to be formatted</param>
+    ''' <param name="lang">name of language</param>
+    ''' <param name="htmlencode">whether to apply HTML Encoding to escape angle brackets</param>
+    ''' <returns>formatted string</returns>
     Private Function SourceFormatToLang(s As String, lang As String, htmlencode As Boolean) As String
         Dim r As String
 
@@ -56,6 +63,11 @@ Public Class Form1
         End If
         txtOutput.Text = SourceFormatToLang(txtInput.Text, cmbLangs.Text, chkHTMLEncode.Checked)
     End Sub
+    ''' <summary>
+    ''' Guesses programming language from a small predefined set using simple rules. Designed for snippets.
+    ''' </summary>
+    ''' <param name="s">input string</param>
+    ''' <returns>name of language</returns>
     Private Function GuessLanguage(s As String) As String
         'points are accumulated for indicators of each language
         'this is a heuristic approach, not parsing so will not work for string literals or unusually formatted code
@@ -160,6 +172,12 @@ Public Class Form1
         Return ""
     End Function
 
+    ''' <summary>
+    ''' Counts instances of substrings within strings
+    ''' </summary>
+    ''' <param name="s">string to be searched</param>
+    ''' <param name="substr">substring</param>
+    ''' <returns>Number of instances</returns>
     Public Function CountInstancesOfSubstrings(s As String, substr As String) As Integer
         Dim c As Integer = 0
         For i As Integer = 0 To s.Length - substr.Length

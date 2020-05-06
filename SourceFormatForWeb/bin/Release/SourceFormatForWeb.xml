@@ -22,5 +22,29 @@ SourceFormatForWeb
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
+<member name="M:SourceFormatForWeb.Form1.SourceFormatToLang(System.String,System.String,System.Boolean)">
+ <summary>
+ Formats source code string s by replacing tabs with 4 spaces, inserting pre and code tags and optionally HTML encoding
+ </summary>
+ <param name="s">input string to be formatted</param>
+ <param name="lang">name of language</param>
+ <param name="htmlencode">whether to apply HTML Encoding to escape angle brackets</param>
+ <returns>formatted string</returns>
+</member>
+<member name="M:SourceFormatForWeb.Form1.GuessLanguage(System.String)">
+ <summary>
+ Guesses programming language from a small predefined set using simple rules. Designed for snippets.
+ </summary>
+ <param name="s">input string</param>
+ <returns>name of language</returns>
+</member>
+<member name="M:SourceFormatForWeb.Form1.CountInstancesOfSubstrings(System.String,System.String)">
+ <summary>
+ Counts instances of substrings within strings
+ </summary>
+ <param name="s">string to be searched</param>
+ <param name="substr">substring</param>
+ <returns>Number of instances</returns>
+</member>
 </members>
 </doc>
