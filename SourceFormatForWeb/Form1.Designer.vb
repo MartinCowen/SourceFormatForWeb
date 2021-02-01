@@ -75,6 +75,7 @@ Partial Class Form1
         Me.txtInput.Location = New System.Drawing.Point(0, 0)
         Me.txtInput.Multiline = True
         Me.txtInput.Name = "txtInput"
+        Me.txtInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.txtInput.Size = New System.Drawing.Size(396, 495)
         Me.txtInput.TabIndex = 0
         '
@@ -85,6 +86,7 @@ Partial Class Form1
         Me.txtOutput.Location = New System.Drawing.Point(0, 0)
         Me.txtOutput.Multiline = True
         Me.txtOutput.Name = "txtOutput"
+        Me.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.txtOutput.Size = New System.Drawing.Size(393, 495)
         Me.txtOutput.TabIndex = 0
         '
