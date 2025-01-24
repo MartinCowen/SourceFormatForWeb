@@ -54,7 +54,11 @@ Public Class Form1
     End Sub
 
     Private Sub btnCopy_Click(sender As Object, e As EventArgs) Handles btnCopy.Click
-        My.Computer.Clipboard.SetText(txtOutput.Text)
+        Try
+            My.Computer.Clipboard.SetText(txtOutput.Text)
+        Catch ex As Exception
+            MessageBox.Show("Could not copy to clipboard!")
+        End Try
     End Sub
     Private Sub StartSourceFormat()
 
